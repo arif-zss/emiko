@@ -1,7 +1,7 @@
 import re
 import os
 from asyncio import gather, get_event_loop, sleep
-
+from asyncio import Lock
 from aiohttp import ClientSession
 from pyrogram import Client, filters, idle
 from Python_ARQ import ARQ
@@ -103,8 +103,26 @@ async def chatpm(_, message):
     if not message.text:
         return
     await type_and_send(message)
-
-
+    
+    
+ASQ_LOCK = Lock()
+@luna.on_message(filters.command("asq") & ~filters.edited)
+async def asq(_, message):
+    err = "Reply to text message or pass the question as argument"
+    if message.reply_to_message:
+        if not message.reply_to_message.text:
+            return await message.reply(err)
+        question = message.reply_to_message.text
+    else:
+        if len(message.command) < 2:
+            return await message.reply(err)
+        question = message.text.split(None, 1)[1]
+    m = await message.reply("Thinking...")
+    async with ASQ_LOCK:
+        resp = await arq.asq(question)
+        await m.edit(resp.result)
+        
+        
 async def main():
     global arq
     session = ClientSession()
