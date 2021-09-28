@@ -5,7 +5,7 @@ from asyncio import Lock
 from aiohttp import ClientSession
 from pyrogram import Client, filters, idle
 from Python_ARQ import ARQ
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 is_config = os.path.exists("config.py")
 
 if is_config:
@@ -59,7 +59,18 @@ async def repo(_, message):
     await message.reply_text(
         "Ask it in @PatheticProgrammers group"
     )
-
+@luna.on_message(filters.text & ~filters.private & filters.command("echo", prefixes="/"))
+async def echo(_, message: Message):
+    if  message.reply_to_message and len(message.command) == 1:
+        await message.reply_text("pls enter something..")
+    elif message.reply_to_message and len(message.command) != 1:
+        await message.reply_to_message.reply_text(message.text.split(None, 1)[1])
+        await message.delete(message.command)
+    elif len(message.command) != 1:
+        await message.reply_text(text = message.text.split(None, 1)[1], quote = False)
+        await message.delete(message.command)
+    else:
+        await message.reply_text("The world will always be a cruel place for you... sorry!")
 
 @luna.on_message(filters.command("help") & ~filters.edited)
 async def start(_, message):
