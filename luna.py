@@ -5,7 +5,7 @@ from asyncio import gather, get_event_loop, sleep
 from aiohttp import ClientSession
 from pyrogram import Client, filters, idle
 from Python_ARQ import ARQ
-
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 is_config = os.path.exists("config.py")
 
 if is_config:
@@ -22,7 +22,8 @@ luna = Client(
 
 bot_id = int(bot_token.split(":")[0])
 arq = None
-
+buttons = [[InlineKeyboardButton("Join Us", url="t.me/anime_sigma"),
+                    ]]
 
 async def lunaQuery(query: str, user_id: int):
     query = (
@@ -53,9 +54,10 @@ async def type_and_send(message):
 @luna.on_message(filters.command("repo") & ~filters.edited)
 async def repo(_, message):
     await message.reply_text(
-        "[GitHub](https://github.com/thehamkercat/LunaChatBot)"
-        + " | [Group](t.me/PatheticProgrammers)",
-        disable_web_page_preview=True,
+        "WEll Well well.. "
+    )
+    await message.reply_text(
+        "Ask it in @PatheticProgrammers group"
     )
 
 
@@ -63,7 +65,10 @@ async def repo(_, message):
 async def start(_, message):
     await luna.send_chat_action(message.chat.id, "typing")
     await sleep(2)
-    await message.reply_text("/repo - Get Repo Link")
+    await message.reply_text("Nice Try u little bud ")
+    await sleep(1)
+    await message.reply_text("Try joining our group for more info 😁", reply_markup=InlineKeyboardMarkup(buttons))
+    await sleep(3)
 
 
 @luna.on_message(
@@ -82,7 +87,7 @@ async def chat(_, message):
             return
     else:
         match = re.search(
-            "[.|\n]{0,}luna[.|\n]{0,}",
+            "emiko|sigma|love|kuki",
             message.text.strip(),
             flags=re.IGNORECASE,
         )
