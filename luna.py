@@ -87,7 +87,7 @@ async def chat(_, message):
             return
     else:
         match = re.search(
-            "emiko|sigma|love|kuki",
+            "emiko|@emikochatbot|love|lonely",
             message.text.strip(),
             flags=re.IGNORECASE,
         )
