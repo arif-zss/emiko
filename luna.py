@@ -66,11 +66,11 @@ async def echo(_, message: Message):
     if  message.reply_to_message and len(message.command) == 1:
         await message.reply_text("pls enter something..")
     elif message.reply_to_message and len(message.command) != 1:
+        await message.delete(message.command)
         await message.reply_to_message.reply_text(message.text.split(None, 1)[1])
-        await message.delete(message.command)
     elif len(message.command) != 1:
-        await message.reply_text(text = message.text.split(None, 1)[1], quote = False)
         await message.delete(message.command)
+        await message.reply_text(text = message.text.split(None, 1)[1], quote = False)
     else:
         await message.reply_text("The world will always be a cruel place for you... sorry!")
 @luna.on_message(
@@ -89,12 +89,12 @@ async def dance(client, message: Message):
 )
 async def insult(_, message):
     if message.reply_to_message:
-        await message.reply_to_message.reply_text(choice(INSULT_STRINGS))
         await message.delete(message.command) 
+        await message.reply_to_message.reply_text(choice(INSULT_STRINGS))
         await sleep(2)
     else:
-        await message.reply_text(choice(INSULT_STRINGS), quote = False)
         await message.delete(message.command)
+        await message.reply_text(choice(INSULT_STRINGS), quote = False)
         await sleep(2)
     
     
