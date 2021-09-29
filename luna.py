@@ -6,6 +6,8 @@ from aiohttp import ClientSession
 from pyrogram import Client, filters, idle
 from Python_ARQ import ARQ
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from random import choice
+from messageing_data import sticker_list, INSULT_STRINGS
 is_config = os.path.exists("config.py")
 
 if is_config:
@@ -71,7 +73,34 @@ async def echo(_, message: Message):
         await message.delete(message.command)
     else:
         await message.reply_text("The world will always be a cruel place for you... sorry!")
-
+@luna.on_message(
+    filters.command("dance", "/") & ~filters.edited & ~filters.private
+)
+async def dance(client, message: Message):
+    await client.send_sticker(message.chat.id, sticker=choice(sticker_list))
+    await sleep(3)
+    
+    
+    
+@luna.on_message(
+    filters.command("insult", ".")
+    & ~filters.private
+    & ~filters.edited
+)
+async def insult(_, message):
+    if message.reply_to_message:
+        await message.reply_to_message.reply_text(choice(INSULT_STRINGS))
+        await message.delete(message.command) 
+        await sleep(2)
+    else:
+        await message.reply_text(choice(INSULT_STRINGS), quote = False)
+        await message.delete(message.command)
+        await sleep(2)
+    
+    
+    
+    
+    
 @luna.on_message(filters.command("help") & ~filters.edited)
 async def start(_, message):
     await luna.send_chat_action(message.chat.id, "typing")
