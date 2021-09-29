@@ -49,7 +49,7 @@ async def type_and_send(message):
     query = message.text.strip()
     await message._client.send_chat_action(chat_id, "typing")
     response, _ = await gather(lunaQuery(query, user_id), sleep(2))
-    await message.reply_text(response)
+    await message.reply_text(response.replace("Luna","Emiko"))
     await message._client.send_chat_action(chat_id, "cancel")
 
 
