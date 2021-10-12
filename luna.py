@@ -61,18 +61,7 @@ async def repo(_, message):
     await message.reply_text(
         "Ask it in @PatheticProgrammers group"
     )
-@luna.on_message(filters.text & ~filters.private & filters.command("echo", prefixes="/"))
-async def echo(_, message: Message):
-    if  message.reply_to_message and len(message.command) == 1:
-        await message.reply_text("pls enter something..")
-    elif message.reply_to_message and len(message.command) != 1:
-        await message.delete(message.command)
-        await message.reply_to_message.reply_text(message.text.split(None, 1)[1])
-    elif len(message.command) != 1:
-        await message.delete(message.command)
-        await message.reply_text(text = message.text.split(None, 1)[1], quote = False)
-    else:
-        await message.reply_text("The world will always be a cruel place for you... sorry!")
+
 @luna.on_message(
     filters.command("dance", "/") & ~filters.edited & ~filters.private
 )
