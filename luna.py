@@ -60,8 +60,8 @@ async def type_and_send(message):
 async def repo(_, message):
     await message.reply_text(
          """Beautiful is better than ugly.
-            Explicit is better than implicit.
-            Simple is better than complex."""
+         Explicit is better than implicit.
+         Simple is better than complex."""
     )
 
 @luna.on_message(
