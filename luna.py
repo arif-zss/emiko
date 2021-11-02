@@ -8,7 +8,7 @@ from Python_ARQ import ARQ
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from random import choice
 from messageing_data import sticker_list, INSULT_STRINGS
-from kuki import tkuki
+from kki import tkuki
 is_config = os.path.exists("config.py")
 
 if is_config:
