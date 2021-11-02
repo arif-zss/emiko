@@ -8,6 +8,7 @@ from Python_ARQ import ARQ
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from random import choice
 from messageing_data import sticker_list, INSULT_STRINGS
+from kuki import tkuki
 is_config = os.path.exists("config.py")
 
 if is_config:
@@ -49,6 +50,8 @@ async def type_and_send(message):
     query = message.text.strip()
     await message._client.send_chat_action(chat_id, "typing")
     response, _ = await gather(lunaQuery(query, user_id), sleep(2))
+    kresp = tkuki(message.text)
+    response = choice([response, kresp])
     await message.reply_text(response.replace("Luna","Emiko"))
     await message._client.send_chat_action(chat_id, "cancel")
 
@@ -56,10 +59,9 @@ async def type_and_send(message):
 @luna.on_message(filters.command("repo") & ~filters.edited)
 async def repo(_, message):
     await message.reply_text(
-        "WEll Well well.. "
-    )
-    await message.reply_text(
-        "Ask it in @PatheticProgrammers group"
+         """Beautiful is better than ugly.
+            Explicit is better than implicit.
+            Simple is better than complex."""
     )
 
 @luna.on_message(
@@ -78,12 +80,12 @@ async def dance(client, message: Message):
 )
 async def insult(_, message):
     if message.reply_to_message:
-        await message.delete(message.command) 
         await message.reply_to_message.reply_text(choice(INSULT_STRINGS))
+        await message.delete(message.command) 
         await sleep(2)
     else:
-        await message.delete(message.command)
         await message.reply_text(choice(INSULT_STRINGS), quote = False)
+        await message.delete(message.command)
         await sleep(2)
     
     
